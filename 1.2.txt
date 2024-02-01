@@ -1,0 +1,42 @@
+const int pirPin = 2;    
+const int ledPin = 13;  
+const int buttonPin = 7; 
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(pirPin, INPUT);
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+  int motionSensorValue = digitalRead(pirPin);
+  int buttonState = digitalRead(buttonPin);
+
+  
+  if (buttonState == LOW) {
+    blinkLED();
+  } else {
+    // Check motion sensor
+    if (motionSensorValue == HIGH) {
+      // Motion detected
+      digitalWrite(ledPin, HIGH);
+      Serial.println("Motion: Detected, LED: ON");
+    } else {
+      // No motion
+      digitalWrite(ledPin, LOW);
+      Serial.println("Motion: Not Detected, LED: OFF");
+    }
+  }
+
+  delay(1000); 
+}
+
+void blinkLED() {
+  for (int i = 0; i < 2; i++) {
+    digitalWrite(ledPin, HIGH);
+    delay(500);
+    digitalWrite(ledPin, LOW);
+    delay(500);
+  }
+}
